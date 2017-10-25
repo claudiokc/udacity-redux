@@ -5,6 +5,8 @@ export default function courseReducer(state = initialState.post, action) {
   switch (action.type) {
   case types.LOAD_POST_SUCCESS:
     return action.allPost;
+  case types.LOAD_UNIQUE_POST:
+    return action.loadUniquePost;
   case types.CREATE_POST_SUCCESS:
     return [
       ...state,

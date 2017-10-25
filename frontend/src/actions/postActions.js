@@ -9,6 +9,10 @@ export const createPostSuccess = (createPost) => {
     return { type: types.CREATE_POST_SUCCESS, createPost}
 }
 
+export const loadUniquePostSuccess = (loadUniquePost) => {
+    return { type: types.LOAD_UNIQUE_POST, loadUniquePost}
+}
+
 export const loadAllpost = () => {
     return function(dispatch) {
         return instance.get('posts').then(post => {
@@ -30,6 +34,17 @@ export const createPost = () => {
             category: 'redux'
         }).then(res => {
             dispatch(createPostSuccess(res))
+        }).catch(error => {
+            throw(error);
+        })
+    }
+}
+
+export const loadUniquePost = (post_id) => {
+    return function(dispatch) {
+        return instance.get('posts/' + post_id)
+        .then(res => {
+            dispatch(loadUniquePostSuccess(res))
         }).catch(error => {
             throw(error);
         })
