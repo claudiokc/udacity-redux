@@ -16,7 +16,7 @@ export const loadUniquePostSuccess = (loadUniquePost) => {
 export const loadAllpost = () => {
     return function(dispatch) {
         return instance.get('posts').then(post => {
-            dispatch(loadPostSuccess(post))
+            dispatch(loadPostSuccess(post.data))
         }).catch(error => {
             throw(error);
         })
