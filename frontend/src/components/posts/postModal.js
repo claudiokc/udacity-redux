@@ -53,10 +53,9 @@ class PostModal extends Component {
       <div>
         <Button basic color='green' onClick={this.show('inverted')}> <Icon name="edit" size='large'/></Button>
         <Modal dimmer={dimmer} open={open} onClose={this.close}>
-          <Modal.Header>Select a Photo</Modal.Header>
+          <Modal.Header>Update Post</Modal.Header>
           <Modal.Content >
             <Modal.Description>
-              <Header>Default Profile Image</Header>
               <Form onSubmit={this.handleSubmit}>
                   <Form.Field label="Title" 
                     placeholder="Title" 
