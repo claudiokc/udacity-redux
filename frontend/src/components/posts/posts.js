@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import * as postActions  from '../../actions/postActions';
+import {Segment, Card} from 'semantic-ui-react';
 import PostList from './postList';
 import PostForm from './postForm';
 
@@ -17,6 +18,8 @@ class Post extends Component {
         this.savePost = this.savePost.bind(this);
         this.updatePost = this.updatePost.bind(this);
       }
+
+    
     componentDidMount() {
         this.props.actions.loadAllpost()
         .then(() => {
@@ -27,39 +30,70 @@ class Post extends Component {
         });
     }
 
-     handleSubmit = (e, { name, value }) =>{
-        console.log(e);
-        console.log( name, value);
-      }
+    reload = () => {
+      this.props.actions.loadAllpost()
+      .then(() => {
+        this.setState({Post: this.props.Post});
+      })
+    }
 
+     handleSubmit = () =>{
+        this.props.actions.createPost(this.state.post)
+        .then(() => {
+          this.setState({Post: this.props.Post});
+        })
+        .catch(error => {
+          console.log(error);
+        }); 
+      }
+     
+      
     
     updatePost = (event, data) => {
-      const field = event.target.name;
+      let field = event.target.name;
       let post = Object.assign({}, this.state.post);
-      if (data) {
-        console.log(data.value);
-      }
-      console.log( event.target.value);
       post[field] = event.target.value;
-      return this.setState({post: post});
+      if (data) {
+        field = data.name;
+        post[field] = data.value;
+        this.setState({post: post});
+      } else if (field) {
+        this.setState({post: post});
+      }
+      return;
     }
 
     savePost = (event) => {
-        console.log('saved');
-        event.preventDefault();
+      event.preventDefault();
         if (!this.formIsValid()) {
           return;
         }
       }
+    
     render() {
         const posts = this.state.Post;
         return (
           <div>
-            <PostList data={posts}/>
-            <PostForm onSubmit={this.handleSubmit}
+            <Card fluid>
+              <Card.Header>
+                <Segment color='green'>List of Post</Segment>
+              </Card.Header>
+              <Card.Content extra>
+                <PostList onReload={this.reload} data={posts}/>
+              </Card.Content>
+            </Card>
+            <Card fluid>
+              <Card.Header>
+              <Segment color='green'>Create Post </Segment>
+            
+              </Card.Header>
+              <Card.Content extra>
+              <PostForm onSubmit={this.handleSubmit}
                 onSave={this.savePost}
                 onChange={this.updatePost}
             />
+              </Card.Content>
+            </Card>
           </div>
         );
     }

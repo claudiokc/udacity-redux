@@ -13,6 +13,12 @@ export const loadUniquePostSuccess = (loadUniquePost) => {
     return { type: types.LOAD_UNIQUE_POST, loadUniquePost}
 }
 
+
+export const updatePostSuccess = (postUpdated) => {
+    return { type: types.UPDATE_POST_SUCCESS, postUpdated}
+}
+
+
 export const loadAllpost = () => {
     return function(dispatch) {
         return instance.get('posts').then(post => {
@@ -23,15 +29,15 @@ export const loadAllpost = () => {
     }
 }
 
-export const createPost = () => {
+export const createPost = (item) => {
     return function(dispatch) {
         return instance.post('posts', {
-            id: '11231231',
+            id: Math.random().toString(36).substr(-8),
             timestamp: Date.now(),
-            title: 'post 1',
-            body: 'content',
-            author: 'zho',
-            category: 'redux'
+            title: item.Title,
+            body: item.Body,
+            author: item.Author,
+            category: item.Category
         }).then(res => {
             dispatch(createPostSuccess(res))
         }).catch(error => {
@@ -45,6 +51,20 @@ export const loadUniquePost = (post_id) => {
         return instance.get('posts/' + post_id)
         .then(res => {
             dispatch(loadUniquePostSuccess(res))
+        }).catch(error => {
+            throw(error);
+        })
+    }
+}
+
+export const updatePost = (item) => {
+    return function(dispatch) {
+        return instance.put('posts/' + item.id, {
+            title: item.title,
+            body: item.body
+        })
+        .then(res => {
+            dispatch(updatePostSuccess(res))
         }).catch(error => {
             throw(error);
         })

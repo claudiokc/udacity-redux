@@ -10,7 +10,12 @@ export default function courseReducer(state = initialState.post, action) {
   case types.CREATE_POST_SUCCESS:
     return [
       ...state,
-      Object.assign({}, action.createpost)
+      Object.assign({}, action.createPost.data)
+    ];
+  case types.UPDATE_POST_SUCCESS:
+    return [
+      ...state,
+      Object.assign({}, action.postUpdated)
     ];
   default:
     return state;

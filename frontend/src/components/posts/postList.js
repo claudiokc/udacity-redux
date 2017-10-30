@@ -1,49 +1,56 @@
 import React from 'react';
-import { Table } from 'semantic-ui-react'
+import { Table, Icon, Divider } from 'semantic-ui-react'
+import PostModal from './postModal';
 
-
-const PostList = ({data}) => {
+const PostList = ({data, onReload}) => {
     return (
-      <Table sortable celled fixed>
-        <Table.Header>
-          <Table.Row>
-             <Table.HeaderCell>
-              id
-            </Table.HeaderCell>
-            <Table.HeaderCell >
-              author
-            </Table.HeaderCell>
-            <Table.HeaderCell >
-              title
-            </Table.HeaderCell>
-            <Table.HeaderCell>
-              body
-            </Table.HeaderCell>
-            <Table.HeaderCell>
-              commentCount
-            </Table.HeaderCell>
-            <Table.HeaderCell>
-              category
-            </Table.HeaderCell>
-             <Table.HeaderCell>
-              voteScore
-            </Table.HeaderCell>
-          </Table.Row>
-        </Table.Header>
-        <Table.Body>
-          {data.map(({author, body, category, commentCount, deleted, id, title, voteScore}) => (
-            <Table.Row key={id}>
-              <Table.Cell>{id}</Table.Cell>
-              <Table.Cell>{author}</Table.Cell>
-              <Table.Cell>{title}</Table.Cell>
-              <Table.Cell>{body}</Table.Cell>
-              <Table.Cell>{commentCount}</Table.Cell>
-              <Table.Cell>{category}</Table.Cell>
-              <Table.Cell>{voteScore}</Table.Cell>
+      <div>
+        <Table sortable celled fixed>
+          <Table.Header>
+            <Table.Row>
+              <Table.HeaderCell>
+                id
+              </Table.HeaderCell>
+              <Table.HeaderCell >
+                author
+              </Table.HeaderCell>
+              <Table.HeaderCell >
+                title
+              </Table.HeaderCell>
+              <Table.HeaderCell>
+                body
+              </Table.HeaderCell>
+              <Table.HeaderCell>
+                commentCount
+              </Table.HeaderCell>
+              <Table.HeaderCell>
+                category
+              </Table.HeaderCell>
+              <Table.HeaderCell>
+                voteScore
+              </Table.HeaderCell>
+              <Table.HeaderCell>
+                Edit Post
+              </Table.HeaderCell>
             </Table.Row>
-          ))}
-        </Table.Body>
-      </Table>
+          </Table.Header>
+          <Table.Body>
+            {data.map(({author, body, category, commentCount, deleted, id, title, voteScore}) => (
+              <Table.Row key={id}>
+                <Table.Cell>{id}</Table.Cell>
+                <Table.Cell>{author}</Table.Cell>
+                <Table.Cell>{title}</Table.Cell>
+                <Table.Cell>{body}</Table.Cell>
+                <Table.Cell>{commentCount}</Table.Cell>
+                <Table.Cell>{category}</Table.Cell>
+                <Table.Cell>{voteScore}</Table.Cell>
+                <Table.Cell><PostModal onReload={onReload} post={{id, author, body, category, title}}/></Table.Cell>
+              </Table.Row>
+            ))}
+          </Table.Body>
+        </Table>
+        <Divider />
+      </div>
     );
 }
 
