@@ -7,6 +7,8 @@ export default function courseReducer(state = initialState.post, action) {
     return action.allPost;
   case types.LOAD_UNIQUE_POST:
     return action.loadUniquePost;
+  case types.VOTE_POST_SUCCESS:
+    return action.postVote;
   case types.CREATE_POST_SUCCESS:
     return [
       ...state,

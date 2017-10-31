@@ -85,7 +85,6 @@ class Post extends Component {
             <Card fluid>
               <Card.Header>
               <Segment color='green'>Create Post </Segment>
-            
               </Card.Header>
               <Card.Content extra>
               <PostForm onSubmit={this.handleSubmit}

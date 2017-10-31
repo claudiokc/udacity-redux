@@ -18,6 +18,10 @@ export const updatePostSuccess = (postUpdated) => {
     return { type: types.UPDATE_POST_SUCCESS, postUpdated}
 }
 
+export const votePostSuccess = (postVote) => {
+    return { type: types.VOTE_POST_SUCCESS, postVote}
+}
+
 
 export const loadAllpost = () => {
     return function(dispatch) {
@@ -62,6 +66,19 @@ export const updatePost = (item) => {
         return instance.put('posts/' + item.id, {
             title: item.title,
             body: item.body
+        })
+        .then(res => {
+            dispatch(updatePostSuccess(res))
+        }).catch(error => {
+            throw(error);
+        })
+    }
+}
+
+export const votePost = (item) => {
+    return function(dispatch) {
+        return instance.post('posts/' + item.id, {
+            option : item.vote
         })
         .then(res => {
             dispatch(updatePostSuccess(res))

@@ -1,7 +1,7 @@
 import React from 'react';
-import { Table, Icon, Divider, Button } from 'semantic-ui-react'
+import { Table, Divider } from 'semantic-ui-react'
 import PostModal from './postModal';
-
+import PostVote from './postVote';
 const PostList = ({data, onReload}) => {
     return (
       <div>
@@ -49,17 +49,7 @@ const PostList = ({data, onReload}) => {
                 <Table.Cell>{voteScore}</Table.Cell>
                 <Table.Cell><PostModal onReload={onReload} post={{id, author, body, category, title}}/></Table.Cell>
                 <Table.Cell>
-                  <Button.Group>
-                      <Button
-                      color='red'
-                      icon='dislike outline'
-                    />
-                    <Button.Or />
-                    <Button
-                      color='blue'
-                      icon='like'
-                    />
-                  </Button.Group>
+                  <PostVote postId={id}  onReload={onReload}/>
                 </Table.Cell>
               </Table.Row>
             ))}

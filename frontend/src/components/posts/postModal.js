@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Button, Header, Form, Modal, Dropdown, Icon } from 'semantic-ui-react'
+import { Button, Form, Modal, Dropdown, Icon } from 'semantic-ui-react'
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import * as postActions  from '../../actions/postActions';
