@@ -19,23 +19,18 @@ class Post extends Component {
         this.updatePost = this.updatePost.bind(this);
       }
 
-    
-    componentDidMount() {
-        this.props.actions.loadAllpost()
-        .then(() => {
-          this.setState({Post: this.props.Post});
-        })
-        .catch(error => {
-          console.log(error);
-        });
-    }
-
+      
     reload = () => {
       this.props.actions.loadAllpost()
       .then(() => {
         this.setState({Post: this.props.Post});
       })
     }
+
+    componentDidMount() {
+      this.reload();
+    }
+
 
      handleSubmit = () =>{
         this.props.actions.createPost(this.state.post)

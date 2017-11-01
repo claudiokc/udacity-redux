@@ -1,7 +1,8 @@
 import React from 'react';
-import { Table, Divider } from 'semantic-ui-react'
+import { Table, Divider } from 'semantic-ui-react';
 import PostModal from './postModal';
 import PostVote from './postVote';
+import {Link} from 'react-router-dom';
 const PostList = ({data, onReload}) => {
     return (
       <div>
@@ -40,7 +41,7 @@ const PostList = ({data, onReload}) => {
           <Table.Body>
             {data.map(({author, body, category, commentCount, deleted, id, title, voteScore}) => (
               <Table.Row key={id}>
-                <Table.Cell>{id}</Table.Cell>
+                <Table.Cell><Link to={`/post/landing/${id}`}>{id}</Link></Table.Cell>
                 <Table.Cell>{author}</Table.Cell>
                 <Table.Cell>{title}</Table.Cell>
                 <Table.Cell>{body}</Table.Cell>
