@@ -1,48 +1,92 @@
 import React, {Component} from 'react';
 import {Comment, Button, Form} from 'semantic-ui-react';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import * as commentActions  from '../../actions/commentActions';
 
 class Comments extends Component {
+     constructor(props, context) {
+        super(props, context);
+        this.state = {
+          comment: {},
+          data: []
+        };
+
+        this.updateComment = this.updateComment.bind(this);
+      }
+
+    date = (date) => {
+      let newDate = (new Date(date));
+    return  newDate.getHours() + ':' + newDate.getMinutes() + ':' + newDate.getSeconds() + '-' + newDate.getFullYear();
+    
+  }
+    reaload = () => {
+       this.props.actions.loadComments(this.props.postId)
+      .then(() => {
+        this.setState({data: this.props.comments.data});
+      });
+    }
+
+    componentDidMount() {
+      this.reaload();
+    }
+
+
+    
+    updateComment = (event) => {
+      let field = event.target.name;
+      let comment = Object.assign({}, this.state.comment);
+      comment[field] = event.target.value;
+      if (field) {
+        this.setState({comment: comment});
+      }
+      return;
+    }
+    saveComment = () => {
+      this.props.actions.createComment(this.props.postId, this.state.comment).then(() => {
+         this.reaload();
+      });
+    }
     render() {
+      const data = this.state.data;
          return (
             <Comment.Group>
-            <Comment>
-              <Comment.Avatar as='a' src='/assets/images/avatar/small/joe.jpg' />
+            {data.map(({id, timestamp, body}) => (
+              <Comment key={id}>
               <Comment.Content>
-                <Comment.Author>Joe Henderson</Comment.Author>
                 <Comment.Metadata>
-                  <div>1 day ago</div>
+                  <div>{this.date(timestamp)}</div>
                 </Comment.Metadata>
                 <Comment.Text>
-                  <p>The hours, minutes and seconds stand as visible reminders that your effort put them all there.</p>
-                  <p>Preserve until your next run, when the watch lets you see how Impermanent your efforts are.</p>
+                  <p>{body.Comment}.</p>
                 </Comment.Text>
-                <Comment.Actions>
-                  <Comment.Action>Reply</Comment.Action>
-                </Comment.Actions>
               </Comment.Content>
             </Comment>
-        
-            <Comment>
-              <Comment.Avatar as='a' src='/assets/images/avatar/small/christian.jpg' />
-              <Comment.Content>
-                <Comment.Author>Christian Rocha</Comment.Author>
-                <Comment.Metadata>
-                  <div>2 days ago</div>
-                </Comment.Metadata>
-                <Comment.Text>I re-tweeted this.</Comment.Text>
-                <Comment.Actions>
-                  <Comment.Action>Reply</Comment.Action>
-                </Comment.Actions>
-              </Comment.Content>
-            </Comment>
-        
-            <Form reply>
-              <Form.TextArea />
-              <Button content='Add Comment' labelPosition='left' icon='edit' primary />
+            ))}
+            <Form onSubmit={this.saveComment} reply>
+              <Form.TextArea 
+                placeholder="Comment" 
+                name="Comment"
+                onChange={this.updateComment}
+              />
+              <Button type="submit" content='Add Comment' labelPosition='left' icon='edit' primary />
             </Form>
           </Comment.Group>
          );
     }
 }
 
-export default Comments;
+function mapStateToProps(state) {
+    return {
+      comments:  state.comments
+    };
+  }
+
+
+  function mapDispatchToProps(dispatch) {
+    return {
+      actions: bindActionCreators(commentActions, dispatch)
+    };
+  }
+
+export default connect(mapStateToProps, mapDispatchToProps)(Comments);

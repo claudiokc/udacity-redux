@@ -56,6 +56,7 @@ export const loadUniquePost = (post_id) => {
         .then(res => {
             dispatch(loadUniquePostSuccess(res))
         }).catch(error => {
+            console.log('error');
             throw(error);
         })
     }

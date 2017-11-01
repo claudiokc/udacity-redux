@@ -4,6 +4,12 @@ import PostModal from './postModal';
 import PostVote from './postVote';
 import {Link} from 'react-router-dom';
 const PostList = ({data, onReload}) => {
+
+  const date = (date) => {
+    let newDate = (new Date(date));
+    return  newDate.getHours() + ':' + newDate.getMinutes() + ':' + newDate.getSeconds() + '-' + newDate.getFullYear();
+    
+  }
     return (
       <div>
         <Table sortable celled fixed>
@@ -14,6 +20,9 @@ const PostList = ({data, onReload}) => {
               </Table.HeaderCell>
               <Table.HeaderCell >
                 author
+              </Table.HeaderCell>
+              <Table.HeaderCell>
+                Created At
               </Table.HeaderCell>
               <Table.HeaderCell >
                 title
@@ -39,16 +48,19 @@ const PostList = ({data, onReload}) => {
             </Table.Row>
           </Table.Header>
           <Table.Body>
-            {data.map(({author, body, category, commentCount, deleted, id, title, voteScore}) => (
+            {data.map(({author, body, category, commentCount, deleted, id, title, voteScore, timestamp}) => (
               <Table.Row key={id}>
                 <Table.Cell><Link to={`/post/landing/${id}`}>{id}</Link></Table.Cell>
                 <Table.Cell>{author}</Table.Cell>
+                <Table.Cell>{date(timestamp)}</Table.Cell>
                 <Table.Cell>{title}</Table.Cell>
                 <Table.Cell>{body}</Table.Cell>
                 <Table.Cell>{commentCount}</Table.Cell>
                 <Table.Cell>{category}</Table.Cell>
                 <Table.Cell>{voteScore}</Table.Cell>
-                <Table.Cell><PostModal onReload={onReload} post={{id, author, body, category, title}}/></Table.Cell>
+                <Table.Cell>
+                  <PostModal onReload={onReload} post={{id, author, body, category, title}}/>
+                </Table.Cell>
                 <Table.Cell>
                   <PostVote postId={id}  onReload={onReload}/>
                 </Table.Cell>
