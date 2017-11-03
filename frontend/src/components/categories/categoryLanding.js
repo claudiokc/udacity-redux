@@ -3,15 +3,19 @@ import {Card, Segment} from 'semantic-ui-react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import * as postActions  from '../../actions/postActions';
-import Comments from '../comments/comments';
+// import Comments from '../comments/comments';
 
 class CategoryLanding extends Component {
+
     constructor(props, context) {
         super(props, context);
         this.state = {
-            post: []
+            category: this.props.category
         };
-      }
+        console.log(this.props)
+        console.log(props)
+    }
+
     componentDidMount() {
         this.props.actions.loadUniquePost(this.props.match.params.id).then(() => {
             this.setState({post: this.props.Post});
@@ -19,28 +23,20 @@ class CategoryLanding extends Component {
     }
 
     render() {
-        const {title, body} = this.state.post;
-    return (
-        <Card fluid>
-            <Card.Header>
-            <Segment color='green'>Post Landing</Segment>
+        return (
+            <Card fluid>
+                <Card.Header>
+                    <Segment color='green'>Catery:</Segment>
                 </Card.Header>
-            <Card.Content extra>
-                <h1>Name: {title}</h1>
-                <h3>
-                    {body}
-                </h3>
-                <Comments postId={this.props.match.params.id}/>
-            </Card.Content>
-        </Card>
-    );
-  }
+            </Card>
+        );
+    }
 }
 
 
 function mapStateToProps(state) {
     return {
-      Post:  state.posts.data
+      data:  state.posts.data
     };
   }
 

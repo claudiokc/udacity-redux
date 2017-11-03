@@ -6,12 +6,14 @@ import { Table } from 'semantic-ui-react';
 import {Link} from 'react-router-dom';
 
 class Categories extends Component {
-    constructor(props, context) {
-        super(props, context);
+
+    constructor(props) {
+        super(props);
         this.state = {
-          categories: []
+            categories: [],
         };
-      }
+    }
+
     componentDidMount() {
         this.props.actions.loadCategories()
         .then(() => {
@@ -24,27 +26,23 @@ class Categories extends Component {
     render() {
         const categories = this.state.categories;
         return (
-            <div>
-              <Table sortable celled fixed>
-                <Table.Header>
-                  <Table.Row>
-                    <Table.HeaderCell >
-                      Categories
-                    </Table.HeaderCell>
-                  </Table.Row>
-                </Table.Header>
-                <Table.Body>
-                  <Table.Row key={0}>
-                  {categories.length >0 && categories.map(category =>
-                    <Table.Cell key={category.path}><Link to={`/post/category/${category.path}`}>{category.name}</Link></Table.Cell>
-                  )}
-                  </Table.Row>
-                </Table.Body>
-              </Table>
-            </div>
+            <Table fixed singleLine>
+              <Table.Header>
+                <Table.Row>
+                  <Table.HeaderCell textAlign='center' colSpan={categories.length}>Categories</Table.HeaderCell>
+                </Table.Row>
+              </Table.Header>
+
+              <Table.Body>
+                <Table.Row>
+                      {categories.map((category,i) =>
+                          <Table.Cell textAlign='center' key={i}><Link to={`/category/${category.name}`}>{category.name}</Link></Table.Cell>
+                      )}
+                </Table.Row>
+              </Table.Body>
+            </Table>
         )
     }
-
 }
 
 function mapStateToProps(state) {
