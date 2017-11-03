@@ -19,13 +19,13 @@ export const loadComments = (postId) => {
     }
 }
 
-export const createComment = (postId, comment) =>{
+export const createComment = (postId, data) =>{
     return function(dispatch) {
         return instance.post('/comments', {
             id: Math.random().toString(36).substr(-8),
             timestamp:Date.now(),
-            body: comment,
-            author: 'somebody',
+            body: data.comment,
+            author: data.author,
             parentId: postId
         }).then(comment => {
             dispatch(createCommentSuccess(comment))

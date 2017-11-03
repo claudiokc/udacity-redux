@@ -19,7 +19,7 @@ class Post extends Component {
         this.updatePost = this.updatePost.bind(this);
       }
 
-      
+
     reload = () => {
       this.props.actions.loadAllpost()
       .then(() => {
@@ -39,11 +39,11 @@ class Post extends Component {
         })
         .catch(error => {
           console.log(error);
-        }); 
+        });
       }
-     
-      
-    
+
+
+
     updatePost = (event, data) => {
       let field = event.target.name;
       let post = Object.assign({}, this.state.post);
@@ -64,14 +64,14 @@ class Post extends Component {
           return;
         }
       }
-    
+
     render() {
         const posts = this.state.Post;
         return (
           <div>
             <Card fluid>
               <Card.Header>
-                <Segment color='green'>List of Post</Segment>
+                <Segment color='green'>List of Posts</Segment>
               </Card.Header>
               <Card.Content extra>
                 <PostList onReload={this.reload} data={posts}/>

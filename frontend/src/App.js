@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import './App.css';
 import Home from './components/home';
 import PostLanding from './components/posts/postLanding';
+import CategoryLanding from './components/categories/categoryLanding';
+
 import {
   BrowserRouter as Router,
   Route,
@@ -14,6 +16,7 @@ class App extends Component {
         <div>
           <Route exact path="/" component={Home}/>
           <Route path="/post/landing/:id" component={PostLanding}/>
+          <Route path="/category/landing/:id" component={CategoryLanding}/>
         </div>
       </Router>
     );
