@@ -75,10 +75,11 @@ class Comments extends Component {
 
     render() {
       const {body, author} = this.state
+      const {comments} = this.props
         return (
             <Container>
                 <Header as='h2' color='teal' textAlign='center'>
-                  Comments
+                  Comments {comments.length}
                 </Header>
 
                 <Modal
@@ -127,7 +128,7 @@ class Comments extends Component {
                     </Table.Row>
                   </Table.Header>
                   <Table.Body>
-                {this.props.comments.map((comment, i) =>
+                {comments.map((comment, i) =>
                   <Table.Row key={comment.id}>
                     <Table.Cell>{comment.body}</Table.Cell>
                     <Table.Cell>{comment.author}</Table.Cell>
