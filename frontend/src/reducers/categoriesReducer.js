@@ -1,14 +1,14 @@
-import * as types from '../actions/actionTypes';
-import initialState from './initialState';
+import { LIST_CATEGORIES } from '../actions'
 
-export default function courseReducer(state = initialState.categories, action) {
-  switch (action.type) {
-  case types.LOAD_CATEGORIES_SUCCESS:
-    return action.categories;
-  case types.LOAD_CATEGORIES_BY_POST_SUCCESS:
-    return action.loadPostCategories;
-  default:
-    return state;
-      
-  }
+const categories = (state = {}, action) => {
+    switch (action.type) {
+        case LIST_CATEGORIES:
+            return Object.assign({}, state, {
+                categories: action.categories,
+            })
+        default:
+            return state
+    }
 }
+
+export default categories;
