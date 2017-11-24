@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
-import { NavLink } from 'react-router-dom'
+import { NavLink, Redirect } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
-import { Container, Icon, Header, Table, Form } from 'semantic-ui-react'
+import { Container, Icon, Header, Table, Form, Button } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 
 import {
@@ -30,21 +30,18 @@ class Post extends Component {
         super(props)
         this.state = {
             category: this.props.category,
-            newPost: this.props.id === 'new',
             id: this.props.id === 'new' ? uuidV4() : this.props.id,
             title: '',
             body: '',
             author: '',
             voteScore: 1,
             editingMode: this.props.id === 'new',
-            timestamp: new Date().getTime()
+            timestamp: new Date().getTime(),
+            redirectHome: false
         }
-
-        this.handleChange = this.handleChange.bind(this)
-        this.deletePost = this.deletePost.bind(this)
     }
 
-    handleChange(event) {
+    handleChange = (event) => {
 
         const target = event.target
         const value = target.value
@@ -68,20 +65,29 @@ class Post extends Component {
     }
 
     handleSubmit = () => {
-      if (this.state.newPost) {
-        const {title, author, body} = this.state
+      if (this.props.id === 'new') {
+        const {title, author, body, category, id} = this.state
           var newPost = {
-            id: uuidV4(),
+            id: id,
             title: title,
             body: body,
             author: author,
-            timeStamp: new Date()
+            category: category,
+            timestamp: new Date()
           }
           this.props.onAddPost(newPost)
-      } else {
-        this.updatePost()
       }
+      this.updatePost()
       this.toggleEditMode()
+    }
+
+    handleVote = (action) => {
+      this.props.onPostVote(this.state.id, action)
+      if (this.props.id === 'new') {
+        this.setState((prevState)=>{
+          return { voteScore: action === 'upVote' ? prevState.voteScore + 1 : prevState.voteScore - 1 }
+        })
+      }
     }
 
     componentDidMount() {
@@ -120,7 +126,7 @@ class Post extends Component {
                 <Table>
                   <Table.Header>
                     <Table.Row>
-                      <Table.HeaderCell>Info</Table.HeaderCell>
+                      <Table.HeaderCell>Post Info</Table.HeaderCell>
                       <Table.HeaderCell>Title</Table.HeaderCell>
                       <Table.HeaderCell>Body</Table.HeaderCell>
                       <Table.HeaderCell>Votes</Table.HeaderCell>
@@ -142,26 +148,36 @@ class Post extends Component {
                       <Table.Cell>{body}</Table.Cell>
                       <Table.Cell>{voteScore}</Table.Cell>
                       <Table.Cell>
-                        <button onClick={e => {
-                          e.preventDefault()
-                          this.props.onPostVote(this.props.id, 'upVote')}}>
-                          <Icon name='thumbs outline up' size='large'/>
-                        </button>
-                        <button onClick={e => {
-                          e.preventDefault()
-                          this.props.onPostVote(this.props.id, 'downVote')}}>
-                          <Icon name='thumbs outline down' size='large'/>
-                        </button>
-                        <button onClick={e => {
+                        <Button
+                          animated='fade'
+                          onClick={ e => {
                             e.preventDefault()
-                            this.toggleEditMode()}}>
-                          <Icon name='edit' size='large'/>
-                        </button>
-                        <button onClick={e => {
+                            this.handleVote('upVote')}}>
+                          <Icon name='thumbs outline up'/>
+                        </Button>
+                        <Button
+                          animated='fade'
+                          onClick={ e => {
                             e.preventDefault()
-                            this.deletePost()}}>
-                            <Icon name='delete' size='large'/>
-                        </button>
+                            this.handleVote('downVote')}}>
+                          <Icon name='thumbs outline down'/>
+                        </Button>
+                        <Button
+                          animated='fade'
+                          icon='edit'
+                          content='Edit'
+                          labelPosition='right'
+                          onClick={e => {
+                            e.preventDefault()
+                            this.toggleEditMode()}} />
+                        <Button
+                          animated='fade'
+                          icon='delete'
+                          content='Delete'
+                          labelPosition='right'
+                          onClick={e => {
+                            e.preventDefault()
+                            this.deletePost()}} />
                       </Table.Cell>
                     </Table.Row>
                   </Table.Body>
@@ -209,6 +225,7 @@ class Post extends Component {
                     {/*<Button color='teal' fluid size='large'  type="submit" >Save</Button>*/}
                 </Form>
                 </div>)}
+                {this.state.redirectHome && (<Redirect to='/' />)}
             </Container>
         )
     }

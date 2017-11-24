@@ -79,7 +79,7 @@ class Comments extends Component {
         return (
             <Container>
                 <Header as='h2' color='teal' textAlign='center'>
-                  Comments {comments.length}
+                  Total of Comments: {comments.length}
                 </Header>
 
                 <Modal
