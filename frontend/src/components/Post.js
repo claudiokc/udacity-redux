@@ -6,7 +6,7 @@ import { Container, Icon, Header, Table, Form, Button } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 
 import {
-    updatePostVote, fetchComments, fetchPost,
+    updatePostVote, fetchComments, fetchPost, fetchPosts,
     updateCommentVote, addNewPost, updatePost,
     addNewComment, delComment, updateComment, updateCommentCount
 } from '../actions'
@@ -91,8 +91,9 @@ class Post extends Component {
     }
 
     componentDidMount() {
-        this.props.loadPost(this.props.id)
-        this.props.loadPostComments(this.props.id)
+      this.props.loadPosts()
+      this.props.loadPost(this.props.id)
+      this.props.loadPostComments(this.props.id)
     }
 
     componentWillReceiveProps(nextProps) {
@@ -233,7 +234,8 @@ class Post extends Component {
 
 const mapStateToProps = (state) => ({
     post: state.posts.posts ? state.posts.posts[state.posts.selectedIndex] : {},
-    comments: state.comments.comments ? state.comments.comments : []
+    comments: state.comments.comments ? state.comments.comments : [],
+    posts: state.posts.posts ? state.posts.posts : []
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -243,6 +245,7 @@ const mapDispatchToProps = dispatch => ({
     onCommentVote: (commentId, vote) => {
         dispatch(updateCommentVote(commentId, vote))
     },
+    loadPosts: data => dispatch(fetchPosts(data)),
     loadPost: id => {
         dispatch(fetchPost(id))
     },

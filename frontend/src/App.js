@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import './App.css';
-import { fetchCategories, fetchPosts, updatePostVote, fetchAllComments, fetchComments, delPost } from './actions'
+import { fetchCategories, fetchPosts, updatePostVote, fetchAllComments, delPost } from './actions'
 import { NavLink, Route, Switch } from 'react-router-dom'
 import { Container, Icon, Header} from 'semantic-ui-react';
 
@@ -82,7 +82,6 @@ function mapDispatchToProps(dispatch) {
     loadCategories: data => dispatch(fetchCategories()),
     loadPosts: data => dispatch(fetchPosts(data)),
     onVote: (id, vote) => dispatch(updatePostVote(id, vote)),
-    loadPostComments: id => {dispatch(fetchComments(id))},
     loadAllComments: data => dispatch(fetchAllComments()),
     onDeletePost: id => dispatch(delPost(id))
   }

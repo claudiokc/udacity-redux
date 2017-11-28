@@ -17,7 +17,7 @@ const posts = (state = {}, action) => {
             })
         case GET_POST:
             return Object.assign({}, state, {
-                selectedIndex: state.posts.findIndex(p => p.id === action.postId)
+                selectedIndex: (typeof state.posts !== 'undefined') ? state.posts.findIndex(p => p.id === action.postId) : -1
             })
         case ADD_POST:
             return Object.assign({}, state, {
