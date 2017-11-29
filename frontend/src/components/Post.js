@@ -91,6 +91,9 @@ class Post extends Component {
     }
 
     componentDidMount() {
+      if (this.props.posts.length === 0) {
+        this.setState({ redirectHome: true })
+      }
       this.props.loadPosts()
       this.props.loadPost(this.props.id)
       this.props.loadPostComments(this.props.id)
