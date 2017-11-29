@@ -91,24 +91,34 @@ class Post extends Component {
     }
 
     componentDidMount() {
-      if (this.props.posts.length === 0) {
-        this.setState({ redirectHome: true })
-      }
       this.props.loadPosts()
       this.props.loadPost(this.props.id)
       this.props.loadPostComments(this.props.id)
     }
 
     componentWillReceiveProps(nextProps) {
-        if (nextProps.post) {
-            this.setState({
-                title: nextProps.post.title,
-                body: nextProps.post.body,
-                author: nextProps.post.author,
-                voteScore: nextProps.post.voteScore,
-                timestamp: nextProps.post.timestamp
-            })
+      if (nextProps.posts.length > 0) {
+        const posts = nextProps.posts
+        const id = nextProps.id
+        if (this.props.id !== 'new'){
+          var temp = [];
+          for (var i = 0; i < posts.length; i++) {
+            temp.push(posts[i].id)
+          }
+          if (temp.indexOf(id) < 0) {
+             this.setState({ redirectHome: true })
+          }
         }
+      }
+      if (nextProps.post) {
+        this.setState({
+          title: nextProps.post.title,
+          body: nextProps.post.body,
+          author: nextProps.post.author,
+          voteScore: nextProps.post.voteScore,
+          timestamp: nextProps.post.timestamp
+        })
+      }
     }
 
     toggleEditMode = () => {
