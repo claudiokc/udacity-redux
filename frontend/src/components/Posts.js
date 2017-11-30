@@ -97,7 +97,7 @@ class Posts extends Component {
                   {this.findPostsByCategory().map((post, i) =>
                       <Table.Row key={i}>
                         <Table.Cell>
-                            <NavLink to={'/' + post.category + '/' + post.id}>{post.title}</NavLink>
+                            <NavLink to={'/cats/' + post.category + '/' + post.id}>{post.title}</NavLink>
                         </Table.Cell>
                         <Table.Cell>{post.author}</Table.Cell>
                         <Table.Cell>{new Date(post.timestamp).toLocaleString()}</Table.Cell>

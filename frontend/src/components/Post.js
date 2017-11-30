@@ -106,7 +106,7 @@ class Post extends Component {
             temp.push(posts[i].id)
           }
           if (temp.indexOf(id) < 0) {
-             this.setState({ redirectHome: true })
+             this.setState({ redirectNotFound: true })
           }
         }
       }
@@ -128,14 +128,15 @@ class Post extends Component {
     }
 
     render() {
-      const { title, body , author, voteScore, editingMode } = this.state
+      const { title, body , author, voteScore, editingMode, redirectNotFound } = this.state
       const { category } = this.props
         return (
             <Container>
                 <NavLink to='/'>
                     <Icon name='home' size='big' />
                 </NavLink>
-                { !editingMode ? (
+                { redirectNotFound && (<Redirect to='/NotFound' />)}
+                { (!editingMode) ? (
                 <div>
                 <Table>
                   <Table.Header>
@@ -152,7 +153,7 @@ class Post extends Component {
                       <Table.Cell>
                         <Header as='h4'>
                           <Header.Content>
-                          <NavLink to={'/' + category}>Category: { category }</NavLink>
+                          <NavLink to={'/cats/' + category}>Category: { category }</NavLink>
                             <Header.Subheader>{author}</Header.Subheader>
                             <Header.Subheader>{new Date(this.state.timestamp).toLocaleString()}</Header.Subheader>
                           </Header.Content>
@@ -239,7 +240,6 @@ class Post extends Component {
                     {/*<Button color='teal' fluid size='large'  type="submit" >Save</Button>*/}
                 </Form>
                 </div>)}
-                {this.state.redirectHome && (<Redirect to='/' />)}
             </Container>
         )
     }

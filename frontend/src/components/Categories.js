@@ -42,12 +42,12 @@ class Categories extends Component {
                         <Table.Cell>
                           <Header as='h4'>
                             <Header.Content>
-                              <NavLink to={'/' + category.name}>{category.name}</NavLink>
+                              <NavLink to={'/cats/' + category.name}>{category.name}</NavLink>
                             </Header.Content>
                           </Header>
                         </Table.Cell>
                         <Table.Cell>
-                          <NavLink to={'/' + category.name + '/new'}>
+                          <NavLink to={'/cats/' + category.name + '/new'}>
                             <Icon name='add square' size='large'/>
                           </NavLink>
                         </Table.Cell>

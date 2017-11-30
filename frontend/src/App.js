@@ -39,7 +39,7 @@ class App extends Component {
     return (
       <Container>
         <Switch>
-          <Route exact path="/:category" render={({ history, match }) => (
+          <Route exact path="/cats/:category" render={({ history, match }) => (
             <div>
               <NavLink to='/'>
                 <Icon name='home' size='big' />
@@ -48,7 +48,7 @@ class App extends Component {
               <Posts posts={this.props.posts} category={match.params.category} onVote={this.props.onVote} onDeletePost={this.props.onDeletePost} />
             </div>
           )} />
-          <Route exact path="/:category/:post_id" render={({ history, match }) => (
+          <Route exact path="/cats/:category/:post_id" render={({ history, match }) => (
             <div>
               <Post id={match.params.post_id}
                 category={match.params.category}
