@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { NavLink } from 'react-router-dom'
+import { NavLink, Redirect } from 'react-router-dom'
 import { Container, Header, Table, Item, Icon } from 'semantic-ui-react'
 
 const style = {
@@ -53,6 +53,10 @@ class Posts extends Component {
         if (c === true) {
             this.props.onDeletePost(id)
         }
+    }
+
+    editPost = (postId) => {
+      this.setState({ redirect: true })
     }
 
     sort(field) {
@@ -114,9 +118,14 @@ class Posts extends Component {
                             }}><Icon disabled name='thumbs outline down' size='large'/></button>
                             <button onClick={e => {
                                 e.preventDefault()
+                                this.editPost(post.id)
+                            }}><Icon disabled name='edit' size='large'/></button>
+                            <button onClick={e => {
+                                e.preventDefault()
                                 this.deletePost(post.id)
                             }}><Icon disabled name='delete' size='large'/></button>
                         </Table.Cell>
+                        {this.state.redirect  && (<Redirect to={'/cats/' + post.category + '/' + post.id + '/edit'} />)}
                       </Table.Row>
                   )}
                   </Table.Body>

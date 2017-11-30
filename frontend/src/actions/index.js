@@ -39,7 +39,7 @@ export const fetchPosts = () => dispatch => (
     ReadableAPI
         .getAllPosts()
         .then(posts => {
-            var postswithcnt = posts.map((p) => Object.assign({}, p, { commentCount: 0 }))
+            var postswithcnt = posts.map((p) => Object.assign({}, p))
             dispatch(listPosts(postswithcnt))
         })
 )

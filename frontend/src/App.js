@@ -55,6 +55,14 @@ class App extends Component {
                 onDeletePost={this.props.onDeletePost} />
             </div>
           )} />
+          <Route exact path="/cats/:category/:post_id/edit" render={({ history, match }) => (
+            <div>
+              <Post id={match.params.post_id}
+                category={match.params.category}
+                onDeletePost={this.props.onDeletePost}
+                editMode={true}/>
+            </div>
+          )} />
           <Route exact path='/' render={() => (
             <div>
                 <Categories categories={this.props.categories} />

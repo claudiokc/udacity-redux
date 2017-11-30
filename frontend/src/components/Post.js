@@ -35,7 +35,7 @@ class Post extends Component {
             body: '',
             author: '',
             voteScore: 1,
-            editingMode: this.props.id === 'new',
+            editingMode: (this.props.id === 'new' || this.props.editMode ) ? true : false,
             timestamp: new Date().getTime(),
             redirectHome: false
         }
